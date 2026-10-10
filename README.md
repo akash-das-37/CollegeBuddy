@@ -1,0 +1,593 @@
+# 🎓 CollegeBuddy — Autonomous AI Exam Preparation Copilot
+
+[![Live on Vercel](https://img.shields.io/badge/Vercel-Live%20Demo-black?style=for-the-badge&logo=vercel)](https://CollegeBuddy-akr.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/akash-das-37/CollegeBuddy)
+[![Python Version](https://img.shields.io/badge/Python-3.12%2B-blue?style=for-the-badge&logo=python)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-6.4-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev)
+[![AI Engine](https://img.shields.io/badge/AI%20Engine-Backboard.io-10a37f?style=for-the-badge)](https://app.backboard.io)
+
+> **CollegeBuddy** is an autonomous academic intelligence copilot built for developers, engineers, and technical students. Tech students spend their semester building real projects, grinding LeetCode, and developing industry skills—leaving college academics for the last minute. When exams knock at the door, CollegeBuddy uses automated portal crawling, **PyMuPDF table extraction**, a **recency-weighted mathematical decay algorithm**, and a **GitHub-style study activity heatmap** to distill massive syllabi and past papers into an actionable, high-yield revision blueprint.
+
+---
+
+## 📌 Table of Contents
+
+1. [The Real Problem: The Coder's Dilemma](#-the-real-problem-the-coders-dilemma)
+2. [The Solution: Pareto Exam Intelligence](#-the-solution-pareto-exam-intelligence)
+3. [Live Application](#-live-application)
+4. [Key Features & User Modules](#-key-features--user-modules)
+   - [1. GitHub-Style Learned Topics Heatmap](#1-github-style-learned-topics-heatmap)
+   - [2. High-Yield Exam Suggestions & Video Drills](#2-high-yield-exam-suggestions--video-drills)
+   - [3. Dynamic Semester Syllabus Blueprint](#3-dynamic-semester-syllabus-blueprint)
+   - [4. Interactive Test Module & AI Question Generator](#4-interactive-test-module--ai-question-generator)
+   - [5. PYQ Question Bank & Multi-Format Ingestion](#5-pyq-question-bank--multi-format-ingestion)
+   - [6. "Solve with AI" Floating Tutor Assistant](#6-solve-with-ai-floating-tutor-assistant)
+   - [7. AI Study Planner & Daily Goal Tracker](#7-ai-study-planner--daily-goal-tracker)
+   - [8. Autonomous College Crawler & Notice Watchdog](#8-autonomous-college-crawler--notice-watchdog)
+5. [High-Level Architecture](#-high-level-architecture)
+6. [Current Student Workflow & Lifecycle](#-current-student-workflow--lifecycle)
+7. [End-to-End Processing & Intelligence Pipeline](#-end-to-end-processing--intelligence-pipeline)
+8. [Mathematical Scoring Formulation](#-mathematical-scoring-formulation)
+9. [Technology Stack](#-technology-stack)
+10. [Project Structure](#-project-structure)
+11. [Getting Started (Local Development)](#-getting-started-local-development)
+12. [REST API Documentation](#-rest-api-documentation)
+13. [Deployment Guide (Vercel & Cloud)](#-deployment-guide)
+
+---
+
+## 🛑 The Real Problem: The Coder's Dilemma
+
+Students in technical fields (Computer Science, Information Technology, AI/ML, Engineering) face a common, high-stakes dilemma every semester:
+
+* 💻 **Skills Over Slides**: Ambitious technical students spend 90% of their semester focusing on real-world engineering—writing code, building full-stack applications, solving DSA problems, hacking open-source, and preparing for tech interviews. They intentionally tune out dense, outdated classroom slide decks.
+* ⏰ **The Exam Panic Door**: When semester exams suddenly "knock at the door" (1–2 weeks before exam night), reality hits. Students are faced with 5–6 heavy theoretical papers with zero structured preparation.
+* 🌪️ **Chaos in the Portal**: They scramble to find what to study:
+  1. **Buried Regulations**: College websites are labyrinths of broken links, outdated PDF circulars, and conflicting curriculum versions (e.g., R18 vs R21 vs R23 vs R25).
+  2. **500-Page Overload**: Trying to read massive textbooks cover-to-cover in 48 hours is impossible and demoralizing.
+  3. **Blind PYQ Guesswork**: Past year question papers (PYQs) are unsearchable scans scattered across messaging groups. Students have no data on which questions repeat or carry maximum marks.
+  4. **Missed Administrative Deadlines**: Important circulars regarding exam form fill-up deadlines, admit card enrollment, and schedule postponements get lost in bureaucratic portals.
+  5. **Unfair GPA Penalties**: Exceptionally talented programmers suffer GPA drops simply because they lack the time to manually decipher college exam patterns.
+
+---
+
+## 💡 The Solution: Pareto Exam Intelligence
+
+**CollegeBuddy** bridges the gap between technical passion and academic survival. It applies the **Pareto Principle (the 80/20 Rule)** to semester exams: *identify the top ~20% of high-yield concepts that produce ~80% of examination marks.*
+
+* ⚡ **1-Click Curriculum Discovery (PyMuPDF)**: Automatically scans university portals, discovers the official regulation PDF (e.g. `CSE-R23.pdf`), parses semester course tables (`CS301`, `EC(CS)301`, `M(CS)301`, labs, contact hours, and credits), and breaks down modular topics in seconds.
+* 🎯 **3-Tier Emergency Revision Planner**:
+  * **Tier 1 (Core Must-Pass)**: High-frequency, recurring exam topics to secure passing marks and strong baseline grades in minimal hours.
+  * **Tier 2 (Grade Booster)**: Moderately tested concepts to push from average to an 8.5+ GPA.
+  * **Tier 3 (Breadth Buffer)**: Peripheral syllabus items to review only if extra time permits.
+* 📊 **Recency-Weighted PYQ Analytics**: Quantifies topic importance using a mathematical time-decay formula—prioritizing recent exam patterns over questions from a decade ago.
+* 🌿 **Learned Topics Calendar**: An interactive GitHub-inspired 53-week study activity calendar embedded in the Study Report that tracks daily topic completions, streaks, and curriculum mastery.
+* 🔔 **Silent Notice Watchdog**: Continuously monitors college circular boards for examination schedules, postponements, and form deadlines, pushing targeted alerts to students based on branch and semester.
+* 🖥️ **Editorial Botanical Aesthetics**: Clean, responsive web dashboard with modern serif typography (Playfair Display), smooth micro-animations, and dynamic semester adaptivity.
+
+---
+
+## 🌐 Live Application
+
+* **Production URL**: [https://CollegeBuddy-akr.vercel.app](https://CollegeBuddy-akr.vercel.app)
+* **GitHub Repository**: [https://github.com/akash-das-37/CollegeBuddy](https://github.com/akash-das-37/CollegeBuddy)
+
+---
+
+## ✨ Key Features & User Modules
+
+### 1. GitHub-Style Learned Topics Heatmap
+* **53-Week Interactive Calendar**: Built with an authentic GitHub contribution layout (`ContributionGraph.tsx`) directly embedded in the **Study Report** section.
+* **Topic Activity Visualization**: Displays 371 days across 7 days of the week (`Mon` to `Sun`) with 5 visual intensity levels (`#ebedf0` to `#15803d`).
+* **Hover Tooltips & Day Inspection**: Hovering reveals date and topic counts; clicking reveals verified curriculum topics learned on that day.
+* **Annual Breakdown Modal**: Summarizes cumulative topics learned across the academic year with retention rate estimates, study streaks, and direct links to syllabus blueprint modules.
+
+### 2. High-Yield Exam Suggestions & Video Drills
+* **Semester-Filtered Suggestions (`SuggestionsPage.tsx`)**: Recommends the highest-frequency topics across all 8 university semesters.
+* **Exam Frequency Metrics**: Highlights exact repetition probability (e.g. `24/25 (96%)` in recent question papers) with color-coded importance badges (*Very High*, *High*, *Medium*, *Low*).
+* **1-Click Plan Integration**: Add high-priority suggestions directly to "Today's Plan" with persistent `localStorage` synchronization.
+* **Curated Video References**: Direct links to top engineering educators on YouTube (Neso Academy, Gate Smashers, Abdul Bari, Striver) tailored to the exact topic query.
+
+### 3. Dynamic Semester Syllabus Blueprint
+* **Active Semester Alignment (`Dashboard.tsx` & `SyllabusPage.tsx`)**: The "Your Subjects" section dynamically reflects the student's active semester (e.g. Semester 2: *Data Structures & Algorithms*, *Digital Logic & Computer Organization*, *Introduction to Artificial Intelligence*, *Engineering Mathematics–II*, *Engineering Chemistry*, *Constitution of India*, *Design Thinking*).
+* **Multi-Source Subject Aggregation**: Merges scanned university regulations, uploaded syllabi, user-added subjects, and official MAKAUT/AICTE curriculum presets.
+* **Seamless Cross-Navigation**: Clicking any subject on the Dashboard immediately opens that subject and chapter in the Syllabus explorer.
+
+### 4. Interactive Test Module & AI Question Generator
+* **Full-Featured Exam Practice (`TestPage.tsx` & `tests.py`)**: Realistic timed testing environment with multiple-choice questions, live timer countdown, question status tracker (Answered, Marked for Review, Unvisited), and instant grading with in-depth solution breakdowns.
+* **Backboard.io AI Question Synthesis**: Generates bespoke university exam papers on demand with zero manual configuration, seamlessly powered by unified **Backboard.io** intelligence.
+* **Granular Exam Customization**: Select specific focus chapters/topics (e.g. *Binary Trees*, *Dijkstra's Algorithm*, *Midterm Syllabus*), question counts (3, 5, 10, 15), and difficulty levels (*Easy*, *Medium*, *Hard*, *Mixed*).
+* **Subject Carousel Navigation**: Elegant horizontal carousel with subject icon badges, chapter progress counts, active green selection pill, and responsive navigation controls.
+
+### 5. PYQ Question Bank & Multi-Format Ingestion
+* **Universal Uploader (`UploadPyqModal.tsx`)**: Supports multi-format question paper uploads across **PDF, Images (JPG, PNG), and Word documents (DOCX)**.
+* **Subject & Year Filtering**: Browse papers by academic year (`2024`, `2023`, `2022`, ...) and active semester subjects.
+* **Interactive Document Viewer (`DocumentViewerModal.tsx`)**: Native viewer for scanned question papers with zoom controls and safe deletion management.
+
+### 6. "Solve with AI" Floating Tutor Assistant
+* **Floating Academic Companion (`AiChatbot.tsx` & `chat.py`)**: An always-accessible smart tutor widget on the dashboard.
+* **Unified Backboard.io Intelligence**: Zero client setup or manual API keys needed—queries are processed directly via **Backboard.io** with instant step-by-step mathematical reasoning, algorithm tracing, and syllabus guidance.
+* **Context-Aware Assistance**: Answers doubts on complex formulas, algorithms, derivations, and exam tips tailored to the student's active semester syllabus.
+
+### 7. AI Study Planner & Daily Goal Tracker
+* **Interactive Daily Goals**: 6-task structured study routine on the Dashboard with completion gauge and animated milestone checkmarks.
+* **Real-Time Cross-App Sync**: Checking off daily goals immediately updates today's activity on the Study Report heatmap.
+
+### 8. Autonomous College Crawler & Notice Watchdog
+* **Priority Spider**: Asynchronous crawling engine (`app/services/crawler.py`) prioritizing academic schedules, postponements, and examination circulars.
+* **Smart Alert Matching**: Dispatches notifications tailored to the student's enrolled course and current semester.
+
+---
+
+## 🏗️ High-Level Architecture
+
+```mermaid
+flowchart TB
+    subgraph Client["Frontend Client (React + Vite + TypeScript)"]
+        UI["Editorial Botanical UI\n(Dashboard, Study Report, Syllabus, PYQs, Suggestions)"]
+        Heatmap["Learned Topics Heatmap\n(53-Week GitHub-Style Activity Grid)"]
+        Suggestions["Exam Suggestions Copilot\n(High-Yield Topics + YouTube Links)"]
+        ClientAPI["Typed API Client\n(JWT Auth + Fetch)"]
+        UI --> Heatmap
+        UI --> Suggestions
+        UI --> ClientAPI
+    end
+
+    subgraph Backend["FastAPI Backend Application"]
+        Router["FastAPI Router\n(/auth, /colleges, /analysis, /notifications)"]
+        AuthSvc["Auth Service\n(OAuth2, bcrypt, JWT)"]
+        
+        subgraph Pipeline["Ingestion & Intelligence Engine"]
+            Crawler["Async Crawler Service\n(HTTPX + BeautifulSoup + Playwright)"]
+            PdfExtractor["Syllabus Extractor\n(PyMuPDF / fitz Table Parser)"]
+            DocProc["Document Processor\n(Claude 3.5 Sonnet / Haiku + Regex)"]
+            Scorer["Importance Scorer\n(Recency Decay + Overlap Matching)"]
+            Notifier["Notification Service\n(Resend API / Mock Dispatcher)"]
+        end
+
+        Router --> AuthSvc
+        Router --> Crawler
+        Router --> PdfExtractor
+        Router --> Scorer
+        Router --> Notifier
+    end
+
+    subgraph StorageLayer["Data & Persistence"]
+        DB[(SQLite / PostgreSQL\nSQLAlchemy Async ORM)]
+        Filesystem["Local Blob Storage\n(/storage/colleges/{id}/)"]
+    end
+
+    ClientAPI <-->|REST JSON| Router
+    Backend <--> DB
+    Backend <--> Filesystem
+    Crawler -->|Fetch HTTP/HTML| UniPortal["University Web Portal\n(e.g., jiscollege.ac.in)"]
+```
+
+---
+
+## ⚡ Current Student Workflow & Lifecycle
+
+CollegeBuddy orchestrates the entire preparation lifecycle for engineering and technical students from enrollment to exam morning:
+
+```mermaid
+journey
+    title Student Academic Preparation Journey with CollegeBuddy
+    section 1. Onboarding
+      Sign up & profile setup (B.Tech CSE Sem 2): 5: Student
+      Auto-lock regulation curriculum & course tables: 5: CollegeBuddy
+    section 2. Pareto Discovery
+      Explore High-Yield Topics (Suggestions page): 5: Student
+      Add Tier-1 concepts to "Today's Plan": 5: Student
+      Watch curated YouTube educator clips: 4: Student
+    section 3. Problem Solving
+      Ask complex doubts via floating AI Tutor: 5: Student
+      Backboard.io derives formulas & traces code: 5: CollegeBuddy
+    section 4. Knowledge Validation
+      Configure AI Practice Test (Focus + Difficulty): 4: Student
+      Synthesize university questions & instant grading: 5: CollegeBuddy
+    section 5. Habit & Accountability
+      Check off daily milestone goals: 5: Student
+      53-week GitHub-style heatmap updates live: 5: CollegeBuddy
+    section 6. Exam Watchdog
+      Autonomous crawler monitors college circulars: 5: CollegeBuddy
+      Student alerted on dates, postponements & forms: 5: Student
+```
+
+### Detailed Operational Step-by-Step
+
+| Step | Phase | Action & Technology | Outcome |
+| :---: | :--- | :--- | :--- |
+| **01** | **Onboarding & Regulation Lock** | Student registers with degree, branch, and active semester (`POST /auth/signup`). System binds active courses (`CS301`, `EC301`, `M301`, labs) with credits and contact hours. | Eliminates obsolete regulation confusion; establishes personalized dashboard context. |
+| **02** | **Pareto Syllabus Distillation** | `SuggestionsPage.tsx` applies recency-weighted PYQ analytics to highlight top 20% high-yield concepts ($S \ge 70$, e.g. *Booth's Algorithm 96% frequency*). | Student bypasses 500-page textbook overload and focuses strictly on high-probability questions. |
+| **03** | **Interactive Problem Solving** | Student clicks *"Solve with AI"* (`AiChatbot.tsx`). Queries are dispatched with zero manual setup via **Backboard.io** (`espr_...`), resolving complex second-order ODEs ($y''+4y=\sin(2x)$), K-maps, and graph algorithms. | Instant step-by-step mathematical reasoning and verified C++/Java/Python source code. |
+| **04** | **Custom Timed Mock Exams** | Student launches **AI Test Generator** (`TestPage.tsx`), selecting subject, target chapter (e.g. *Binary Trees*), difficulty, and question count (3, 5, 10, 15). Backboard.io synthesizes university-standard MCQs. | Realistic timed exam simulations with instant scorecards, correct answers, and pedagogical rationales. |
+| **05** | **Study Habit & Heatmap Sync** | Checking off items on the 6-task **Daily Goals** tracker increments the student's **53-Week GitHub-Style Activity Calendar** (`ContributionGraph.tsx`) with 5 visual green intensity levels. | Gamifies exam revision with visible daily momentum, retention metrics, and annual topic breakdowns. |
+| **06** | **Notice Watchdog Surveillance** | Background priority crawler (`crawler.py`) inspects university circular boards for schedules, postponements, and form deadlines, pushing targeted alerts (`notifications.py`). | Prevents missed exam form submission deadlines and administrative panics. |
+
+---
+
+## 🔄 End-to-End Processing & Intelligence Pipeline
+
+The CollegeBuddy data pipeline bridges raw university portal documents to interactive student insights through 5 automated stages:
+
+```mermaid
+flowchart TD
+    subgraph S1["Stage 1: Autonomous Web Discovery"]
+        Portal["🏛️ University Portal / Notice Board\n(HTML / JS / ASP.NET)"]
+        Crawler["🕷️ Async Priority Spider (crawler.py)\n(HTTPX + Playwright Headless)"]
+        Portal -->|Crawl & Discover| Crawler
+    end
+
+    subgraph S2["Stage 2: Multi-Format Document Ingestion"]
+        DocClassifier["📑 Document Classifier & Filter"]
+        PyMuPDF["⚡ PyMuPDF (fitz) Table Parser\n(Extracts CS301, Credits, Topics)"]
+        PYQStore["📂 PYQ Bank Ingestion\n(PDF, Word DOCX, Image Scans)"]
+        Crawler -->|Raw Blobs| DocClassifier
+        DocClassifier -->|Regulation PDFs| PyMuPDF
+        DocClassifier -->|Past Question Papers| PYQStore
+    end
+
+    subgraph S3["Stage 3: Mathematical Pareto Analytics"]
+        Tokenizer["🔤 N-Gram Semantic Topic Matcher"]
+        DecayModel["📐 Recency-Weighted Decay Engine\nW_recency = 1 / (1 + 0.25 * ΔY)"]
+        TierClassifier["🎯 3-Tier Priority Generator\n(Tier 1 Core, Tier 2 Booster, Tier 3 Buffer)"]
+        PyMuPDF --> Tokenizer
+        PYQStore --> Tokenizer
+        Tokenizer --> DecayModel
+        DecayModel --> TierClassifier
+    end
+
+    subgraph S4["Stage 4: Autonomous AI Intelligence (Backboard.io)"]
+        BackboardEngine["⚡ Backboard.io Engine (Assistant + Threads API)\nUnified Key: espr_..."]
+        TestSynth["📝 Timed Practice Test Synthesizer\n(/tests/generate)"]
+        ChatTutor["💡 Solve with AI Problem Solver\n(/chat)"]
+        Resilience["🛡️ Automatic Resilience Fallback\n(Google Gemini & Local Engineering Solvers)"]
+        BackboardEngine --> TestSynth
+        BackboardEngine --> ChatTutor
+        BackboardEngine -.->|Credit Notice Caught| Resilience
+    end
+
+    subgraph S5["Stage 5: Presentation & Actionable Insights"]
+        Heatmap["🌿 53-Week GitHub Study Heatmap\n(Daily Habit Tracking)"]
+        SuggestionsUI["📊 High-Yield Suggestions & Video Drills\n(Neso, Abdul Bari, Striver)"]
+        NoticeAlerts["🔔 Targeted Circular Notifications\n(Course & Semester Matched)"]
+        TierClassifier --> SuggestionsUI
+        TierClassifier --> Heatmap
+        TestSynth --> Heatmap
+        Crawler --> NoticeAlerts
+    end
+```
+
+### In-Depth Pipeline Architecture
+
+#### Stage 1: Autonomous Web Discovery & Scraping
+* **Priority Spider (`crawler.py`)**: Crawls university domains using asynchronous HTTP connection pooling (`HTTPX`) and headless Chromium (`Playwright`) for JavaScript-rendered circular tables.
+* **Smart Filter & Deduplication**: Prioritizes URLs matching patterns like `*syllabus*`, `*regulation*`, `*notice*`, and `*exam*`, computing SHA-256 hashes of PDF blobs to prevent redundant processing.
+
+#### Stage 2: PyMuPDF Structural Extraction & Multi-Format Ingestion
+* **High-Speed C-Engine Extraction (`syllabus_extractor.py`)**: PyMuPDF (`fitz`) parses multi-page regulation tables in under 500ms without expensive vision models, extracting course codes (`CS201`, `M201`), credits, lecture/practical hours, and modular syllabus points.
+* **Universal PYQ Ingestion**: Ingests past examination question papers across **PDF, Word (.docx), and Scanned Images**, isolating marks, question numbers, and sub-questions.
+
+#### Stage 3: Recency-Weighted Scoring & Pareto Classification
+* **N-Gram Semantic Matching (`analysis_service.py`)**: Computes token overlap and stem matching between past exam questions and official syllabus topics.
+* **Time-Decay Metric**: Multiplies question marks by recency weights ($W_{\text{recency}} = \frac{1}{1 + 0.25 \times \Delta Y}$), promoting recent examination trends over decade-old papers.
+* **Tier Partitioning**: Segregates curriculum into **Tier 1 (Core Must-Pass $\ge 70$)**, **Tier 2 (Grade Booster $40–69$)**, and **Tier 3 (Breadth Buffer $< 40$)**.
+
+#### Stage 4: Backboard.io AI Question Synthesis & Problem Solving
+* **Unified Assistant Protocol (`chat.py` & `tests.py`)**: Interacts with Backboard.io using persistent assistant threads (`X-API-Key: espr_...`), resolving complex engineering problems, differential equations ($y'' + 4y = \sin(2x)$), Booth's multiplication tables, and algorithm proofs.
+* **Fail-Safe Resilience**: Backend and frontend clients automatically intercept third-party credit notices (*"free credit is reserved for Memory & RAG"*), routing requests instantly to Google Gemini or verified local academic solvers with zero user configuration.
+
+#### Stage 5: Editorial Botanical Visualization & Notification Dispatch
+* **53-Week Study Heatmap (`ContributionGraph.tsx`)**: Renders daily topic learning streaks inspired by GitHub's contribution layout with interactive day inspection and retention analytics.
+* **Dynamic Semester Syllabus (`SyllabusPage.tsx`)**: Adapts view dynamically to the student's enrolled semester.
+* **Targeted Notice Watchdog**: Filters scraped university circulars and notifies students based on enrolled branch and year.
+
+---
+
+## 📐 Mathematical Scoring Formulation
+
+For each syllabus topic $T$, its importance score $S(T)$ is derived from all past exam questions $q \in PYQ(T)$ matched to it:
+
+$$S_{\text{raw}}(T) = \sum_{q \in PYQ(T)} W_{\text{recency}}(q) \times W_{\text{marks}}(q)$$
+
+### 1. Recency Decay Function
+Recent examination trends reflect revised university priorities. Questions from recent years receive higher weight:
+
+$$W_{\text{recency}}(q) = \frac{1.0}{1.0 + 0.25 \times (Y_{\text{current}} - Y_{\text{exam}})}$$
+
+* An appearance in the immediate prior year carries a weight of $\approx 0.80$.
+* An appearance 4 years prior decays to $\approx 0.50$.
+
+### 2. Marks Normalization
+Questions with higher point values signify comprehensive conceptual questions:
+
+$$W_{\text{marks}}(q) = \frac{\text{Marks}(q)}{10.0}$$
+
+### 3. Scaled Importance Score
+The final score is normalized to a $[0, 100]$ scale with a guaranteed $+10$ point baseline for topics that have appeared on past papers:
+
+$$S_{\text{final}}(T) = \min\left(100, \; \left( \frac{S_{\text{raw}}(T)}{\max_{t} S_{\text{raw}}(t)} \times 90.0 \right) + 10.0 \right)$$
+
+### 4. Study Priority Tiers
+* **Tier 1 (High Priority)**: $S_{\text{final}} \ge 70$ — Mandatory core concepts that appear consistently across recent examinations.
+* **Tier 2 (Medium Priority)**: $40 \le S_{\text{final}} < 70$ — Important supporting topics that appear periodically.
+* **Tier 3 (Low Priority)**: $S_{\text{final}} < 40$ — Peripheral syllabus items for comprehensive score maximization.
+
+---
+
+## 💻 Technology Stack
+
+| Layer | Technologies | Rationale |
+|---|---|---|
+| **Frontend Framework** | **React 18.3, TypeScript 5.7, Vite 6.4** | Fast SPA rendering, strict type safety, sub-second HMR |
+| **Frontend Styling** | **Vanilla CSS (Design Tokens)** | Custom editorial botanical theme without heavy Tailwind overhead |
+| **Backend Framework** | **Python 3.12, FastAPI, Uvicorn** | High-performance asynchronous REST API, auto-generating OpenAPI docs |
+| **PDF Extraction** | **PyMuPDF (`fitz`) 1.25.1** | Fast C-compiled PDF table extraction, zero LLM cost for structured syllabi |
+| **Crawler & Scraping** | **HTTPX, BeautifulSoup4, Playwright** | Async non-blocking network calls with headless Chromium fallback for JS portals |
+| **Database & ORM** | **SQLAlchemy 2.0 (Async), aiosqlite / PostgreSQL, Alembic** | Async database access, seamless migrations, SQLite for local / Postgres for prod |
+| **AI / LLM Engine** | **Backboard.io (Unified Academic Intelligence)** | Autonomous test question synthesis, RAG memory, and document classification |
+| **Notification Engine**| **Resend API / SMTP** | Multi-channel student notice alert dispatcher |
+| **Cloud Deployment** | **Vercel (Frontend)**, **Docker / Cloud VPS (Backend)** | Edge-hosted frontend distribution with global CDN caching |
+
+---
+
+## 📂 Project Structure
+
+```bash
+CollegeBuddy/
+├── app/                            # Backend FastAPI Application
+│   ├── core/                       # App configuration, security & JWT utilities
+│   │   ├── config.py               # Pydantic BaseSettings (.env loader)
+│   │   └── security.py             # Password hashing (bcrypt) & JWT token handlers
+│   ├── db/                         # Database connection & async session factory
+│   │   └── __init__.py             # SQLAlchemy async engine & Base
+│   ├── models/                     # SQLAlchemy ORM database models
+│   │   ├── college.py              # College entity & scrape status
+│   │   ├── student.py              # User profiles (course, branch, semester)
+│   │   ├── document.py             # Downloaded files & extracted text
+│   │   ├── syllabus.py             # Syllabus entries & importance scores
+│   │   ├── pyq.py                  # Past examination questions & matched topics
+│   │   ├── notice.py               # Circulars & delivery notification logs
+│   │   └── scraped_page.py         # Visited web pages & HTML cache
+│   ├── routers/                    # REST API route handlers
+│   │   ├── auth.py                 # /auth (login, signup, /me)
+│   │   ├── colleges.py             # /colleges (crawl, syllabus, pyqs, search-syllabus)
+│   │   ├── analysis.py             # /analysis (importance score compute, study reports)
+│   │   ├── notifications.py        # /notifications (student alerts & preferences)
+│   │   ├── tests.py                # /tests (AI question synthesis via Backboard.io)
+│   │   └── chat.py                 # /chat (Solve with AI context-aware academic assistant)
+│   ├── schemas/                    # Pydantic validation and serialization models
+│   │   ├── auth.py                 # Login / signup payload schemas
+│   │   ├── extraction.py           # Syllabus, PYQ, and notice response schemas
+│   │   └── analysis.py             # Ranked topics & study tier schemas
+│   ├── services/                   # Business logic & pipeline implementations
+│   │   ├── crawler.py              # Async priority-queue web crawler
+│   │   ├── syllabus_extractor.py   # Discovery & PyMuPDF table extraction engine
+│   │   ├── processor.py            # Document classification & parsing pipeline
+│   │   ├── analysis_service.py     # Recency decay scoring & topic matching
+│   │   ├── llm_service.py          # Multi-LLM provider client (Backboard, Gemini, Claude, OpenAI)
+│   │   ├── email_service.py        # Email circular notifications (Resend / mock)
+│   │   └── storage.py              # Local disk storage service for PDFs
+│   └── main.py                     # FastAPI entrypoint, middleware, static mount
+├── frontend/                       # Vite + React + TypeScript Web App
+│   ├── src/
+│   │   ├── api/                    # Client API connectors
+│   │   │   └── client.ts           # Centralized typed fetch client (VITE_API_BASE)
+│   │   ├── components/             # Reusable UI components
+│   │   │   ├── AiChatbot.tsx       # "Solve with AI" Floating Academic Tutor & Assistant
+│   │   │   ├── ContributionGraph.tsx # GitHub-style 53-week Learned Topics Heatmap
+│   │   │   ├── DocumentViewerModal.tsx # Multi-format document & image inspector
+│   │   │   ├── EditProfileModal.tsx # User profile & semester editor
+│   │   │   ├── Navbar.tsx          # Editorial top navigation bar with sync pill
+│   │   │   ├── Sidebar.tsx         # Left sidebar navigation with route badges
+│   │   │   ├── UploadPyqModal.tsx  # Multi-format PYQ uploader (PDF, Image, DOCX)
+│   │   │   └── UploadSyllabusModal.tsx # Syllabus regulation document uploader
+│   │   ├── data/                   # Structured curriculum & preset datasets
+│   │   │   ├── curriculumData.ts   # Official course blueprints and modules
+│   │   │   ├── documentsData.ts    # Seeded regulation documents archive
+│   │   │   ├── semesterSubjects.ts # Semester-wise subjects (Sem 1 to 8) & palettes
+│   │   │   ├── subjectPresets.ts   # Curated topics and chapter outlines
+│   │   │   ├── suggestionsData.ts  # High-yield exam topics & YouTube video links
+│   │   │   └── testsData.ts        # Built-in practice tests, question sets & solutions
+│   │   ├── pages/                  # Top-level views
+│   │   │   ├── Dashboard.tsx       # Today's plan, dynamic subjects & stats
+│   │   │   ├── TestPage.tsx        # Interactive timed test engine & AI Custom Generator
+│   │   │   ├── StudyReportPage.tsx # Learned Topics Heatmap & study time breakdown
+│   │   │   ├── SyllabusPage.tsx    # Interactive syllabus tracker & module viewer
+│   │   │   ├── PyqPage.tsx         # Question bank, year tabs & practice viewer
+│   │   │   ├── SuggestionsPage.tsx # Exam topics copilot with video references
+│   │   │   ├── NoticesPage.tsx     # Circulars board & notification manager
+│   │   │   ├── SettingsPage.tsx    # Profile configuration & college switcher
+│   │   │   ├── HomePage.tsx        # Hero landing showcase
+│   │   │   └── LoginPage.tsx       # Authentication view
+│   │   ├── styles/                 # Modular Vanilla CSS stylesheets
+│   │   │   ├── AiChatbot.css       # Floating tutor assistant & chat bubble styling
+│   │   │   ├── ContributionGraph.css # Heatmap styling matching GitHub layout
+│   │   │   ├── Dashboard.css       # Workspace & grid layouts
+│   │   │   ├── TestPage.css        # Test taking UI, score card, and AI generator modal
+│   │   │   ├── StudyReportPage.css # Study report charts & metric cards
+│   │   │   ├── SyllabusPage.css    # Syllabus explorer & topic checkboxes
+│   │   │   ├── PyqPage.css         # Question bank & paper cards
+│   │   │   └── SuggestionsPage.css # High-yield recommendations & pills
+│   │   ├── types/                  # Global TypeScript interface definitions
+│   │   ├── App.tsx                 # Route coordinator & authenticated session
+│   │   └── index.css               # Design tokens & botanical theme variables
+│   ├── package.json                # Dependencies & build scripts
+│   ├── vite.config.ts              # Vite bundle configuration
+│   └── vercel.json                 # Vercel deployment & SPA rewrite rules
+├── alembic/                        # Database migration scripts
+├── tests/                          # Automated test suites (pytest)
+├── .env.example                    # Sample environment variables template
+├── .gitignore                      # Git exclusion rules
+└── README.md                       # Comprehensive documentation
+```
+
+---
+
+## 🚀 Getting Started (Local Development)
+
+### Prerequisites
+* **Python**: `3.12+`
+* **Node.js**: `18.0+`
+* **npm**: `9.0+`
+
+---
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/akash-das-37/CollegeBuddy.git
+cd CollegeBuddy
+```
+
+---
+
+### 2. Backend Setup
+
+1. **Create and activate a Python virtual environment**:
+   ```bash
+   # Windows PowerShell
+   python -m venv .venv
+   .venv\Scripts\Activate.ps1
+
+   # Linux / macOS
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+2. **Install Python dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Configure Environment Variables**:
+   Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   *(CollegeBuddy runs out-of-the-box in local development with SQLite and built-in heuristic fallbacks even without an Anthropic API key.)*
+
+4. **Initialize Database Tables**:
+   ```bash
+   python -c "import asyncio; from app.db import init_db; asyncio.run(init_db())"
+   ```
+
+5. **Start the FastAPI backend server**:
+   ```bash
+   python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+   ```
+   * Interactive API Swagger Docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+   * Alternative ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
+---
+
+### 3. Frontend Setup
+
+1. **Navigate to the frontend directory**:
+   ```bash
+   cd frontend
+   ```
+
+2. **Install Node dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Start the Vite development server**:
+   ```bash
+   npm run dev
+   ```
+   * Open your browser at [http://localhost:5173](http://localhost:5173).
+
+4. **Build production bundle**:
+   ```bash
+   npm run build
+   ```
+
+---
+
+## 📡 REST API Documentation
+
+### Authentication (`/auth`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/auth/signup` | Register a new student profile with college, branch, and semester |
+| `POST` | `/auth/login` | Authenticate with email/password and receive a Bearer JWT |
+| `GET` | `/auth/me` | Fetch authenticated student profile |
+
+### Colleges & Portal Extraction (`/colleges`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/colleges/{college_id}` | Retrieve college metadata and scraping status |
+| `POST` | `/colleges/{college_id}/scrape` | Trigger asynchronous portal crawl |
+| `GET` | `/colleges/{college_id}/scrape/status` | Real-time page and document count metrics |
+| `POST` | `/colleges/{college_id}/search-syllabus` | **Autonomous PyMuPDF discovery & extraction of curriculum regulations** |
+| `GET` | `/colleges/{college_id}/syllabus` | Retrieve structured syllabus entries with branch & semester filters |
+| `GET` | `/colleges/{college_id}/pyqs` | Retrieve past year exam questions |
+| `GET` | `/colleges/{college_id}/notices` | Retrieve parsed administrative notices & circulars |
+
+### Exam Intelligence & Study Planner (`/analysis`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/analysis/{subject}/compute` | Calculate recency-weighted importance scores for subject topics |
+| `GET` | `/analysis/{subject}/ranked-topics` | Retrieve ranked syllabus topics sorted by exam probability |
+| `GET` | `/students/me/study-report` | Generate complete 3-tier study report for the authenticated student |
+
+### Notifications (`/notifications`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/notifications/me` | Retrieve circular alerts delivered to the student |
+| `PATCH` | `/notifications/preferences` | Enable or disable email circular dispatch |
+
+### AI Question Generator & Tests (`/tests`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/tests/generate` | Synthesize university-standard exam questions via Backboard.io with answer explanations |
+
+### AI Academic Tutor (`/chat`)
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/chat/ask` | Contextual Q&A session with AI Tutor for syllabus doubts and problem solving |
+
+---
+
+## ☁️ Deployment Guide
+
+### Deploying the Frontend to Vercel
+CollegeBuddy is configured for zero-config Vercel deployment:
+
+1. **Install Vercel CLI**:
+   ```bash
+   npm install -g vercel
+   ```
+2. **Deploy from `frontend/`**:
+   ```bash
+   cd frontend
+   vercel --prod
+   ```
+3. Set the environment variable in your Vercel Project Settings:
+   * `VITE_API_BASE`: `https://your-backend-api-domain.com` (or your cloud backend URL).
+
+---
+
+## 🛡️ Security & Privacy
+
+* **Encrypted Passwords**: Uses `bcrypt` password hashing with per-user salt.
+* **Stateless Tokens**: Secure JWT authentication (`HS256`) with configurable expiration.
+* **Domain Restrictions**: Crawler operates strictly on domain and subdomains of the designated college.
+* **Input Sanitization**: Pydantic v2 validation safeguards all API ingest points.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+<p align="center">
+  <b>Built with ❤️ for college students navigating exam preparation.</b><br />
+  <sub>CollegeBuddy • Autonomous AI Academic Copilot</sub>
+</p>
