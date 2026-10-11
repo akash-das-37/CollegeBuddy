@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import type { Student } from '../types';
-import { AVAILABLE_TESTS, type TestPaper, type TestQuestion } from '../data/testsData';
-import { SEMESTER_SUBJECTS_MAP } from '../data/semesterSubjects';
+import { getTestsForSubjectAndSemester, type TestPaper, type TestQuestion } from '../data/testsData';
+import { SEMESTER_SUBJECTS_MAP, getSubjectVisuals } from '../data/semesterSubjects';
 import { api } from '../api/client';
 import '../styles/TestPage.css';
 
@@ -10,7 +10,7 @@ interface TestPageProps {
   onNavigateTab?: (tab: string) => void;
 }
 
-// Subject card definitions matching the user's design image
+// Subject card definitions matching the design system
 interface SubjectCardData {
   name: string;
   chapters: string;
@@ -19,82 +19,108 @@ interface SubjectCardData {
   color: string;
 }
 
-const SEMESTER_2_SUBJECTS: SubjectCardData[] = [
-  {
-    name: 'Data structure and Algorithms',
-    chapters: '5 Chapters',
-    icon: 'storage',
-    bg: '#dcfce7',
-    color: '#15803d',
-  },
-  {
-    name: 'Introduction to Artificial Intelligence',
-    chapters: '5 Chapters',
-    icon: 'psychology',
-    bg: '#e0f2fe',
-    color: '#0284c7',
-  },
-  {
-    name: 'Digital Logic and Computer Organization',
-    chapters: '6 Chapters',
-    icon: 'memory',
-    bg: '#f3e8ff',
-    color: '#7e22ce',
-  },
-  {
-    name: 'Engineering Mathematics–II',
-    chapters: '4 Chapters',
-    icon: 'calculate',
-    bg: '#fee2e2',
-    color: '#dc2626',
-  },
-  {
-    name: 'Engineering Chemistry',
-    chapters: '5 Chapters',
-    icon: 'science',
-    bg: '#fef3c7',
-    color: '#d97706',
-  },
-  {
-    name: 'Constitution of India & Professional Ethics',
-    chapters: '4 Chapters',
-    icon: 'gavel',
-    bg: '#f1f5f9',
-    color: '#475569',
-  },
-];
-
 export const TestPage: React.FC<TestPageProps> = ({ student, onNavigateTab }) => {
-  // Test selection & filtering
-  const [selectedSubject, setSelectedSubject] = useState<string>('Data structure and Algorithms');
+  const defaultSem = student?.semester ? String(student.semester) : '6';
+  const [selectedSemester, setSelectedSemester] = useState<string>(`Semester ${defaultSem}`);
+
+  // Synchronize when student semester updates or loads
+  useEffect(() => {
+    if (student?.semester) {
+      setSelectedSemester(`Semester ${student.semester}`);
+    }
+  }, [student?.semester]);
+
+  // Semester string number (e.g. "6", "2")
+  const semNum = selectedSemester.replace('Semester ', '').trim() || String(student?.semester || '6');
+
+  // Dynamically compute subjects for current selected semester
+  const currentSemesterSubjects = useMemo<SubjectCardData[]>(() => {
+    const subjects = SEMESTER_SUBJECTS_MAP[semNum] || SEMESTER_SUBJECTS_MAP['6'] || SEMESTER_SUBJECTS_MAP['2'] || [];
+    return subjects.map((name, idx) => {
+      const visuals = getSubjectVisuals(name, idx);
+      return {
+        name,
+        chapters: '5 Chapters',
+        icon: visuals.icon,
+        bg: visuals.accentBg,
+        color: visuals.accentColor,
+      };
+    });
+  }, [semNum]);
+
+  // Selected subject in carousel
+  const [selectedSubject, setSelectedSubject] = useState<string>(() => {
+    const subjects = SEMESTER_SUBJECTS_MAP[defaultSem] || SEMESTER_SUBJECTS_MAP['6'] || SEMESTER_SUBJECTS_MAP['2'] || [];
+    return subjects[0] || 'Web and Internet Technology';
+  });
+
   const [testType, setTestType] = useState<string>('Previous Year Paper');
   const [selectedYear, setSelectedYear] = useState<string>('2024');
-  const [selectedSemester, setSelectedSemester] = useState<string>(
-    student?.semester ? `Semester ${student.semester}` : 'Semester 2'
-  );
 
-  // Tests list including presets and dynamic AI generated tests
-  const [testsList, setTestsList] = useState<TestPaper[]>(() => AVAILABLE_TESTS);
+  // When semNum changes, ensure selectedSubject belongs to the new semester
+  useEffect(() => {
+    const subjects = SEMESTER_SUBJECTS_MAP[semNum] || SEMESTER_SUBJECTS_MAP['6'] || SEMESTER_SUBJECTS_MAP['2'] || [];
+    if (subjects.length > 0) {
+      const match = subjects.find(
+        (s) => s.toLowerCase() === selectedSubject.toLowerCase()
+      );
+      if (!match) {
+        setSelectedSubject(subjects[0]);
+      }
+    }
+  }, [semNum, selectedSubject]);
+
+  // Tests list dynamically initialized and updated per semester & subject
+  const [testsList, setTestsList] = useState<TestPaper[]>(() => {
+    const initialSubj = (SEMESTER_SUBJECTS_MAP[defaultSem] || SEMESTER_SUBJECTS_MAP['6'] || [])[0] || 'Web and Internet Technology';
+    return getTestsForSubjectAndSemester(
+      initialSubj,
+      defaultSem,
+      student?.branch || 'CSE',
+      student?.college_name || 'JISCE'
+    );
+  });
 
   // Active Test Paper
-  const [activeTest, setActiveTest] = useState<TestPaper>(() => AVAILABLE_TESTS[0]);
-  const [currentQIndex, setCurrentQIndex] = useState<number>(4); // Default to Q5 (0-indexed 4) to match mockup!
+  const [activeTest, setActiveTest] = useState<TestPaper>(() => {
+    const initialSubj = (SEMESTER_SUBJECTS_MAP[defaultSem] || SEMESTER_SUBJECTS_MAP['6'] || [])[0] || 'Web and Internet Technology';
+    const list = getTestsForSubjectAndSemester(
+      initialSubj,
+      defaultSem,
+      student?.branch || 'CSE',
+      student?.college_name || 'JISCE'
+    );
+    return list[0] || null as any;
+  });
+
+  const [currentQIndex, setCurrentQIndex] = useState<number>(0);
 
   // User state per question in active test
-  // answers: { [questionId: number]: 'A' | 'B' | 'C' | 'D' }
-  const [answers, setAnswers] = useState<Record<number, 'A' | 'B' | 'C' | 'D'>>({
-    1: 'B', // Answered Q1
-    5: 'A', // Answered Q5 as shown in mockup
-  });
-  // bookmarks: Set of questionIds
-  const [bookmarks, setBookmarks] = useState<Set<number>>(new Set([5])); // Q5 marked for review as in mockup
+  const [answers, setAnswers] = useState<Record<number, 'A' | 'B' | 'C' | 'D'>>({});
+  const [bookmarks, setBookmarks] = useState<Set<number>>(new Set());
 
   // Palette display toggle
   const [showAllQuestions, setShowAllQuestions] = useState<boolean>(false);
 
-  // Timer: 2 hrs 42 mins 15 secs (9735 seconds) as displayed in mockup!
-  const [secondsLeft, setSecondsLeft] = useState<number>(9735);
+  // Timer: initialized to test paper duration
+  const [secondsLeft, setSecondsLeft] = useState<number>(() => (activeTest?.durationMinutes || 180) * 60);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(true);
+
+  // Synchronize testsList and activeTest whenever selectedSubject or semNum changes
+  useEffect(() => {
+    const course = student?.branch || 'CSE';
+    const college = student?.college_name || 'JISCE';
+    const papers = getTestsForSubjectAndSemester(selectedSubject, semNum, course, college);
+    if (papers && papers.length > 0) {
+      setTestsList(papers);
+      setActiveTest(papers[0]);
+      setCurrentQIndex(0);
+      setAnswers({});
+      setBookmarks(new Set());
+      setSecondsLeft(papers[0].durationMinutes * 60);
+      setIsSubmitted(false);
+    }
+  }, [selectedSubject, semNum, student?.branch, student?.college_name]);
 
   // Modals & Submission state
   const [showEndModal, setShowEndModal] = useState<boolean>(false);
@@ -116,9 +142,6 @@ export const TestPage: React.FC<TestPageProps> = ({ student, onNavigateTab }) =>
       subjectScrollRef.current.scrollBy({ left: 280, behavior: 'smooth' });
     }
   };
-
-  // Semester string
-  const semNum = selectedSemester.replace('Semester ', '').trim() || '2';
 
   // Timer countdown hook
   useEffect(() => {
@@ -386,8 +409,9 @@ export const TestPage: React.FC<TestPageProps> = ({ student, onNavigateTab }) =>
           {/* Horizontal Subject Cards Row (Exact recreation of user reference image) */}
           <div className="eb-test-subject-row-wrap">
             <div className="eb-test-subject-scroll-container" ref={subjectScrollRef}>
-              {SEMESTER_2_SUBJECTS.map((subj) => {
+              {currentSemesterSubjects.map((subj) => {
                 const isActive =
+                  selectedSubject.toLowerCase().trim() === subj.name.toLowerCase().trim() ||
                   selectedSubject.toLowerCase().includes(subj.name.toLowerCase().slice(0, 10)) ||
                   subj.name.toLowerCase().includes(selectedSubject.toLowerCase().slice(0, 10));
 
@@ -397,13 +421,6 @@ export const TestPage: React.FC<TestPageProps> = ({ student, onNavigateTab }) =>
                     className={`eb-test-subject-card ${isActive ? 'active' : ''}`}
                     onClick={() => {
                       setSelectedSubject(subj.name);
-                      // Switch active test to match subject if available
-                      const matching = testsList.find(
-                        (t) =>
-                          t.subject.toLowerCase().includes(subj.name.toLowerCase().slice(0, 10)) ||
-                          subj.name.toLowerCase().includes(t.subject.toLowerCase().slice(0, 10))
-                      );
-                      if (matching) handleSwitchTest(matching);
                     }}
                   >
                     <div
@@ -720,7 +737,7 @@ export const TestPage: React.FC<TestPageProps> = ({ student, onNavigateTab }) =>
                     <span className="material-symbols-outlined text-[18px] text-[#2d6a4f]">
                       account_tree
                     </span>
-                    Question {currentQ.id} of {totalQuestions}
+                    Question {currentQIndex + 1} of {totalQuestions}
                   </span>
                   <span className="eb-test-q-badge-marks">{currentQ.marks} Marks</span>
                   <span className={`eb-test-q-badge-diff ${currentQ.difficulty.toLowerCase()}`}>
@@ -882,7 +899,7 @@ export const TestPage: React.FC<TestPageProps> = ({ student, onNavigateTab }) =>
                               : 'Not Answered'
                           })`}
                         >
-                          {q.id}
+                          {idx + 1}
                         </button>
                       );
                     })}
