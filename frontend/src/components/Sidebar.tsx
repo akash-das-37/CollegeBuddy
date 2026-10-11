@@ -14,7 +14,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
-  noticesCount,
+  noticesCount: _noticesCount,
   onLogout,
   onOpenSettings,
 }) => {
@@ -22,7 +22,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'dashboard', label: 'Dashboard', icon: 'home', badge: null },
     { id: 'study-report', label: 'Study Report', icon: 'poll', badge: null },
     { id: 'syllabus', label: 'Syllabus', icon: 'menu_book', badge: null },
-    { id: 'pyqs', label: 'Question Bank (PYQs)', icon: 'quiz', badge: '2' },
+    { id: 'pyqs', label: 'Question Bank (PYQs)', icon: 'quiz', badge: null },
     { id: 'suggestions', label: 'Suggestions', icon: 'tips_and_updates', badge: null },
     { id: 'test', label: 'Test', icon: 'description', badge: null },
     { id: 'notes', label: 'Notes', icon: 'sticky_note_2', badge: null },
@@ -30,7 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'notices',
       label: 'Notices',
       icon: 'campaign',
-      badge: noticesCount > 0 ? `${noticesCount}` : '2',
+      badge: null,
     },
   ];
 

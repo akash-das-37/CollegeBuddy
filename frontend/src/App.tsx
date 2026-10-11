@@ -16,7 +16,7 @@ import { NotesPage } from './pages/NotesPage';
 import { EditProfileModal } from './components/EditProfileModal';
 import { SettingsPage } from './pages/SettingsPage';
 import { AiChatbot } from './components/AiChatbot';
-import { aiCollegeScraper, deriveCollegeNameFromUrl } from './services/aiCollegeScraper';
+import { ScrapingNoticeModal } from './components/ScrapingNoticeModal';
 import type { College, Notice, Student } from './types';
 
 export const App: React.FC = () => {
@@ -28,10 +28,11 @@ export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [publicView, setPublicView] = useState<'home' | 'login'>('home');
   const [loginInitialTab, setLoginInitialTab] = useState<'signin' | 'register'>('signin');
-  const [isScraping, setIsScraping] = useState(false);
+  const [isScraping] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [showScrapingNoticeModal, setShowScrapingNoticeModal] = useState(false);
 
   const showToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     setToast({ message, type });
@@ -99,9 +100,11 @@ export const App: React.FC = () => {
         try {
           const currentStudent = await api.getMe();
           await loadStudentData(currentStudent);
+          setShowScrapingNoticeModal(true);
         } catch {
           if (cachedStudent) {
             await loadStudentData(cachedStudent);
+            setShowScrapingNoticeModal(true);
           } else {
             api.logout();
             setStudent(null);
@@ -213,32 +216,7 @@ export const App: React.FC = () => {
   };
 
   const handleTriggerScrape = async () => {
-    if (!student) return;
-    setIsScraping(true);
-    const targetUrl = student.college_url || localStorage.getItem('CollegeBuddy_college_url') || '';
-    if (!targetUrl) {
-      showToast('Please specify your college portal URL in your profile.', 'error');
-      setIsScraping(false);
-      return;
-    }
-    const resolvedName = deriveCollegeNameFromUrl(targetUrl, student.college_name);
-    showToast(`AI Agent crawling ${resolvedName} (${targetUrl}) & syncing to Supabase...`, 'info');
-    try {
-      const res = await aiCollegeScraper.scrapeAndSyncCollege({
-        collegeUrl: targetUrl,
-        collegeName: resolvedName,
-        course: student.course,
-        branch: student.branch,
-        semester: student.semester,
-      });
-
-      showToast(`Successfully scraped ${res.college_name} and saved to Supabase!`, 'success');
-      await loadStudentData(student);
-    } catch (err: unknown) {
-      showToast(err instanceof Error ? err.message : 'Scraping failed', 'error');
-    } finally {
-      setIsScraping(false);
-    }
+    setShowScrapingNoticeModal(true);
   };
 
   const handleToggleNotifications = async (enabled: boolean) => {
@@ -284,6 +262,7 @@ export const App: React.FC = () => {
         initialTab={loginInitialTab}
         onNavigateToHome={() => setPublicView('home')}
         onAuthSuccess={async (newStudent) => {
+          setShowScrapingNoticeModal(true);
           await loadStudentData(newStudent);
           showToast(`Welcome back, ${newStudent.name}!`, 'success');
         }}
@@ -293,6 +272,12 @@ export const App: React.FC = () => {
 
   return (
     <div className="eb-app-container">
+      {/* Legal Scraping Notice Modal on login */}
+      <ScrapingNoticeModal
+        isOpen={showScrapingNoticeModal}
+        onClose={() => setShowScrapingNoticeModal(false)}
+      />
+
       {/* Toast Notification */}
       {toast && (
         <div

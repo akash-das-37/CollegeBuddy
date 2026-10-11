@@ -372,38 +372,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     }
   };
 
-  // Mock quick social sign-in demo handler
-  const handleSocialAuth = async (provider: 'Google' | 'GitHub') => {
-    setError(null);
-    setLoading(true);
-    try {
-      const demoEmail = provider === 'Google' ? 'demo.google@learner.edu' : 'demo.github@learner.edu';
-      const demoName = provider === 'Google' ? 'Google Scholar' : 'GitHub Developer';
-      
-      try {
-        await api.login(demoEmail, 'SecurePass123!');
-      } catch {
-        // Register demo student if not existing
-        await api.register({
-          name: demoName,
-          email: demoEmail,
-          password: 'SecurePass123!',
-          college_url: 'https://www.iitb.ac.in/',
-          course: 'B.Tech',
-          branch: 'CSE',
-          semester: 6,
-          email_notifications_enabled: true,
-        });
-      }
-      const student = await api.getMe();
-      onAuthSuccess(student);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : `${provider} authentication failed.`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="pm-auth-container">
       {/* Ambient background overlay for sunlight & dappled leaf shadow aesthetic */}
@@ -895,7 +863,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           {/* Continue with Google */}
           <button
             type="button"
-            onClick={() => handleSocialAuth('Google')}
+            onClick={(e) => e.preventDefault()}
             className="pm-sso-btn"
           >
             <svg width="20" height="20" viewBox="0 0 24 24">
@@ -922,7 +890,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           {/* Continue with GitHub (as requested instead of Microsoft) */}
           <button
             type="button"
-            onClick={() => handleSocialAuth('GitHub')}
+            onClick={(e) => e.preventDefault()}
             className="pm-sso-btn"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#24292F">
