@@ -12,6 +12,7 @@ import { SyllabusPage } from './pages/SyllabusPage';
 import { PyqPage } from './pages/PyqPage';
 import { SuggestionsPage } from './pages/SuggestionsPage';
 import { TestPage } from './pages/TestPage';
+import { NotesPage } from './pages/NotesPage';
 import { EditProfileModal } from './components/EditProfileModal';
 import { SettingsPage } from './pages/SettingsPage';
 import { AiChatbot } from './components/AiChatbot';
@@ -376,6 +377,10 @@ export const App: React.FC = () => {
 
           {activeTab === 'test' && (
             <TestPage student={student} onNavigateTab={setActiveTab} />
+          )}
+
+          {activeTab === 'notes' && (
+            <NotesPage student={student} onNavigateTab={setActiveTab} />
           )}
 
           {activeTab === 'notices' && (

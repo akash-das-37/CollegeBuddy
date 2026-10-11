@@ -2043,3 +2043,854 @@ textarea::placeholder {
     order: 1;
   }
 }
+
+/* ============================================================
+   NOTES PAGE EDITORIAL BOTANICAL STYLES
+   Matches exact layout, cards, donut progress & quick actions
+   ============================================================ */
+.eb-notes-page {
+  padding: 24px 36px 60px 36px;
+  max-width: 1560px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.eb-notes-header {
+  margin-bottom: 20px;
+}
+
+.eb-notes-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: #191c19;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.eb-notes-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+/* Filter Card Row */
+.eb-notes-filter-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 10px 18px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1.2fr 1.5fr;
+  gap: 16px;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
+  margin-bottom: 24px;
+}
+
+.eb-filter-group {
+  position: relative;
+}
+
+.eb-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.eb-filter-btn:hover {
+  background-color: #f8fafc;
+}
+
+.eb-filter-icon {
+  font-size: 20px;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.eb-filter-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.eb-filter-label {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.eb-filter-val {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eb-filter-arrow {
+  font-size: 18px;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.eb-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  min-width: 240px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 6px;
+  z-index: 50;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.eb-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 13px;
+  color: #334155;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.eb-dropdown-item:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.eb-dropdown-item.active {
+  background-color: #f0fdf4;
+  color: #166534;
+  font-weight: 600;
+}
+
+.eb-filter-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f8fafc;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 8px 14px;
+}
+
+.eb-notes-search-input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  font-size: 13px;
+  color: #0f172a !important;
+  width: 100%;
+}
+
+.eb-notes-search-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* 3-Column Grid */
+.eb-notes-content-grid {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr) 290px;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Column 1: Topics List Card */
+.eb-topics-sidebar-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.eb-topics-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.eb-topics-sidebar-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #191c19;
+}
+
+.eb-topics-count-badge {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.eb-topics-list-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 640px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.eb-topic-item-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.eb-topic-item-btn:hover {
+  background-color: #f8fafc;
+}
+
+.eb-topic-item-btn.active {
+  background-color: #f0fdf4;
+  border-color: #86efac;
+}
+
+.eb-topic-item-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.eb-topic-number-circle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.eb-topic-number-circle.active {
+  background-color: #284232;
+  color: #ffffff;
+}
+
+.eb-topic-item-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.eb-topic-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eb-topic-item-notes-count {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+.eb-topic-chevron {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* Column 2: Topic Details & Notes */
+.eb-topic-main-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 24px 26px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.eb-topic-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.eb-topic-pill-badge {
+  background-color: #dcfce7;
+  color: #166534;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+.eb-total-content-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 12px;
+}
+
+.eb-active-topic-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #191c19;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.eb-active-topic-desc {
+  font-size: 13.5px;
+  color: #64748b;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* Format Tabs */
+.eb-format-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 14px;
+  overflow-x: auto;
+}
+
+.eb-format-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #475569;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.eb-format-tab-btn:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.eb-format-tab-btn.active {
+  background-color: #284232;
+  color: #ffffff;
+  border-color: #284232;
+  box-shadow: 0 2px 8px rgba(40, 66, 50, 0.25);
+}
+
+/* Notes Cards Stack */
+.eb-notes-list-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eb-note-card-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  background-color: #fafaf9;
+  transition: all 0.15s ease;
+  gap: 16px;
+}
+
+.eb-note-card-item:hover {
+  border-color: rgba(40, 66, 50, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  background-color: #ffffff;
+}
+
+.eb-note-icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.eb-note-icon-circle.color-red {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.eb-note-icon-circle.color-blue {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.eb-note-icon-circle.color-purple {
+  background-color: #f3e8ff;
+  color: #9333ea;
+}
+
+.eb-note-icon-circle.color-green {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.eb-note-icon-circle.color-amber {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.eb-note-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.eb-note-card-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.eb-note-card-desc {
+  font-size: 12.5px;
+  color: #64748b;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.eb-note-card-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.eb-note-badge-pill {
+  font-size: 11px;
+  color: #64748b;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 5px 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eb-note-view-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: #ffffff;
+  border: 1px solid #16a34a;
+  color: #15803d;
+  font-size: 12.5px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.eb-note-view-btn:hover {
+  background-color: #f0fdf4;
+  border-color: #15803d;
+}
+
+.eb-status-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.eb-status-tag.completed {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.eb-status-tag.in-progress {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* Column 3: Right Widgets */
+.eb-right-widgets-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.eb-widget-card {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.eb-widget-card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #191c19;
+  margin-bottom: 14px;
+}
+
+/* Donut Progress */
+.eb-progress-donut-container {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.eb-donut-wrapper {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+}
+
+.eb-donut-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.eb-donut-bg-track {
+  fill: none;
+  stroke: #f1f5f9;
+}
+
+.eb-donut-fill-circle {
+  fill: none;
+  stroke: #284232;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s ease;
+}
+
+.eb-donut-center-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eb-donut-percent {
+  font-size: 16px;
+  font-weight: 800;
+  color: #191c19;
+}
+
+.eb-progress-legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.eb-progress-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #475569;
+}
+
+.eb-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  display: inline-block;
+}
+
+.eb-legend-dot.completed {
+  background-color: #284232;
+}
+
+.eb-legend-dot.in-progress {
+  background-color: #22c55e;
+}
+
+.eb-legend-dot.not-started {
+  background-color: #cbd5e1;
+}
+
+.eb-legend-name {
+  flex: 1;
+}
+
+.eb-legend-count {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.eb-total-notes-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Quick Actions 2x2 Grid */
+.eb-quick-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.eb-quick-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  line-height: 1.3;
+  transition: all 0.15s ease;
+}
+
+.eb-quick-action-btn.action-download {
+  background-color: #ecfdf5;
+  color: #047857;
+}
+.eb-quick-action-btn.action-download:hover {
+  background-color: #d1fae5;
+}
+
+.eb-quick-action-btn.action-print {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+.eb-quick-action-btn.action-print:hover {
+  background-color: #dbeafe;
+}
+
+.eb-quick-action-btn.action-revision {
+  background-color: #faf5ff;
+  color: #7e22ce;
+}
+.eb-quick-action-btn.action-revision:hover {
+  background-color: #f3e8ff;
+}
+
+.eb-quick-action-btn.action-ai-summary {
+  background-color: #fffbeb;
+  color: #b45309;
+}
+.eb-quick-action-btn.action-ai-summary:hover {
+  background-color: #fef3c7;
+}
+
+/* Related Resources List */
+.eb-related-resources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eb-related-resource-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: #fafaf9;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+.eb-related-resource-item:hover {
+  background-color: #f1f5f9;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.eb-resource-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.eb-resource-icon-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eb-resource-icon-circle.red {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.eb-resource-icon-circle.purple {
+  background-color: #f3e8ff;
+  color: #9333ea;
+}
+
+.eb-resource-icon-circle.blue {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.eb-resource-icon-circle.green {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.eb-resource-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* Modal Styling */
+.eb-note-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.eb-note-modal-container {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 860px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.eb-note-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: #fbfaf8;
+}
+
+.eb-note-modal-body {
+  padding: 24px 28px;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+.eb-video-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.eb-notes-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #ffffff;
+  border: 1px solid #10b981;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #065f46;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 250;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .eb-notes-content-grid {
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+  .eb-right-widgets-col {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .eb-notes-filter-card {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .eb-notes-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
