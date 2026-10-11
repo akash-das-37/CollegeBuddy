@@ -4,6 +4,7 @@ import type { OriginalDocument, Student, SyllabusEntry } from '../types';
 import { getDocumentsForStudent } from '../data/documentsData';
 import { INITIAL_CURRICULUM_DATA } from '../data/curriculumData';
 import { getPresetForSubject, DSA_CHAPTERS, type ChapterItem, type TopicItem } from '../data/subjectPresets';
+import { SEMESTER_SUBJECTS_MAP } from '../data/semesterSubjects';
 import { UploadSyllabusModal } from '../components/UploadSyllabusModal';
 import { DocumentViewerModal } from '../components/DocumentViewerModal';
 import { aiCollegeScraper, deriveCollegeNameFromUrl } from '../services/aiCollegeScraper';
@@ -88,11 +89,119 @@ function cleanBoilerplate(text: string): string {
     .trim();
 }
 
+// Intelligent fallback generator to guarantee structured chapters & topics if no preset or DB records exist
+function generateIntelligentChaptersForSubject(subjectName: string): ChapterItem[] {
+  const norm = subjectName.toLowerCase();
+  const slug = norm.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'subj';
+  const isLab = norm.includes('lab') || norm.includes('practical') || norm.includes('workshop');
+
+  const modules = isLab
+    ? [
+        {
+          title: 'Foundational Setup & Environment Configuration',
+          topics: [
+            'Development environment setup, dependencies & toolchains',
+            'Basic input/output operations, unit testing & syntax verification',
+            'Core debugging workflows and memory profiling',
+          ],
+        },
+        {
+          title: 'Core Implementation & Architectural Experiments',
+          topics: [
+            'Hands-on implementation of primary algorithms and data models',
+            'Verification of specifications, test suite development & edge case handling',
+            'Functional component testing and benchmark evaluations',
+          ],
+        },
+        {
+          title: 'Advanced Modules & System Integration',
+          topics: [
+            'Integration of modular subsystems and external APIs/drivers',
+            'Performance profiling, latency optimization & resource monitoring',
+            'Security hardening and fault injection testing',
+          ],
+        },
+        {
+          title: 'Real-World Case Study & Industrial Problem Solving',
+          topics: [
+            'End-to-end industry scenario implementation',
+            'Integration with cloud/simulation environments',
+            'Stress testing and failure recovery mechanism',
+          ],
+        },
+        {
+          title: 'Capstone Mini-Project & Technical Documentation',
+          topics: [
+            'System architecture design and SRS validation',
+            'Full working prototype implementation and test deployment',
+            'Comprehensive project report, code review and demonstration',
+          ],
+        },
+      ]
+    : [
+        {
+          title: 'Foundations & Mathematical Principles',
+          topics: [
+            'Fundamental definitions, historical evolution & architectural paradigm',
+            'Mathematical modeling, formal semantics & theoretical foundations',
+            'Core analytical techniques and problem formulation',
+          ],
+        },
+        {
+          title: 'Core Architecture & Methodologies',
+          topics: [
+            'System architecture, design components and subsystem interaction',
+            'Primary operational algorithms and process flows',
+            'State representations, execution pipelines and synchronization',
+          ],
+        },
+        {
+          title: 'Advanced Techniques & Optimization',
+          topics: [
+            'Algorithmic optimizations, scaling strategies and complexity analysis',
+            'Protocol mechanisms, distributed patterns and fault-tolerant designs',
+            'Performance metrics, profiling and latency minimization',
+          ],
+        },
+        {
+          title: 'Security, Standards & Industry Protocols',
+          topics: [
+            'Security threats, vulnerability assessments & threat mitigation',
+            'Regulatory frameworks, ethical standards and compliances',
+            'Interoperability, standards adoption and industry case studies',
+          ],
+        },
+        {
+          title: 'Emerging Trends & Real-World Applications',
+          topics: [
+            'Modern innovations, hybrid architectures and emerging research trends',
+            'Enterprise implementation patterns and cloud/embedded deployment',
+            'Comprehensive domain case studies and future horizons',
+          ],
+        },
+      ];
+
+  const cat: 'practical' | 'theory' = isLab ? 'practical' : 'theory';
+
+  return modules.map((m, idx) => ({
+    id: `ch-${slug}-${idx + 1}`,
+    number: idx + 1,
+    title: `Module ${idx + 1}: ${m.title}`,
+    category: cat,
+    topics: m.topics.map((t, tIdx) => ({
+      id: `t-${slug}-${idx + 1}-${tIdx + 1}`,
+      title: `${t} [2L]`,
+      category: cat,
+      status: (tIdx === 0 && idx === 0 ? 'completed' : tIdx === 1 && idx === 0 ? 'in-progress' : 'not-started') as 'completed' | 'in-progress' | 'not-started',
+    })),
+  }));
+}
+
 // Convert SyllabusEntry records for a subject into structured ChapterItems and TopicItems
 function buildChaptersFromSubjectEntries(subjectName: string, entries: SyllabusEntry[]): ChapterItem[] {
   // First check if we have a pristine curated preset for this subject
   const preset = getPresetForSubject(subjectName);
-  if (preset) {
+  if (preset && preset.length > 0) {
     return preset;
   }
 
@@ -110,7 +219,11 @@ function buildChaptersFromSubjectEntries(subjectName: string, entries: SyllabusE
     return true;
   });
 
-  return dedupedEntries.map((e, idx) => {
+  if (dedupedEntries.length === 0) {
+    return generateIntelligentChaptersForSubject(subjectName);
+  }
+
+  const builtChapters = dedupedEntries.map((e, idx) => {
     let rawTitle = e.topic_title
       .replace(/^\[[A-Za-z0-9_-]+\]\s*/, '')
       .replace(/\s*\(\d+\s*L\)/i, '')
@@ -129,6 +242,8 @@ function buildChaptersFromSubjectEntries(subjectName: string, entries: SyllabusE
 
     const isLab = subjectName.toLowerCase().includes('lab') || e.topic_title.toLowerCase().includes('lab');
     const cleanedDesc = cleanBoilerplate(e.topic_description || '');
+
+    const cat: 'practical' | 'theory' = isLab ? 'practical' : 'theory';
 
     let subtopics: TopicItem[] = [];
     if (cleanedDesc) {
@@ -155,7 +270,7 @@ function buildChaptersFromSubjectEntries(subjectName: string, entries: SyllabusE
         subtopics = splitLines.map((line, sIdx) => ({
           id: `t-${e.id || idx}-${sIdx + 1}`,
           title: line.replace(/^\d+[\.\)]\s*/, '').replace(/\s*\[\d+\s*L\]/i, '').replace(/[:\s]+$/, '').trim(),
-          category: isLab ? 'practical' : 'theory',
+          category: cat,
           status: 'not-started',
         }));
       }
@@ -166,13 +281,13 @@ function buildChaptersFromSubjectEntries(subjectName: string, entries: SyllabusE
         {
           id: `t-${e.id || idx}-1`,
           title: cleanedDesc || `${rawTitle} - Fundamental Concepts & Architecture`,
-          category: isLab ? 'practical' : 'theory',
+          category: cat,
           status: 'not-started',
         },
         {
           id: `t-${e.id || idx}-2`,
           title: `${rawTitle} - Applied Implementation & Analysis`,
-          category: isLab ? 'practical' : 'theory',
+          category: cat,
           status: 'not-started',
         },
       ];
@@ -182,13 +297,15 @@ function buildChaptersFromSubjectEntries(subjectName: string, entries: SyllabusE
       id: `ch-${e.id || idx}`,
       number: idx + 1,
       title: rawTitle || `Module ${idx + 1}`,
-      category: isLab ? 'practical' : 'theory',
+      category: cat,
       topics: subtopics,
     };
   });
+
+  return builtChapters.length > 0 ? builtChapters : generateIntelligentChaptersForSubject(subjectName);
 }
 
-// Build subject list strictly filtered to the given semester
+// Build subject list strictly filtered to the given semester with guaranteed chapters and topics
 function buildSemesterSubjects(
   targetSem: string,
   targetBranch: string,
@@ -197,101 +314,41 @@ function buildSemesterSubjects(
   const semStr = String(targetSem);
   const branchLower = targetBranch ? targetBranch.toLowerCase() : '';
 
-  // Filter all entries that strictly belong to this semester (and match course/branch if present)
+  // 1. Get the official configured curriculum subjects for this semester
+  const configuredNames = SEMESTER_SUBJECTS_MAP[semStr] || SEMESTER_SUBJECTS_MAP['2'] || [];
+
+  // 2. Filter all uploaded/database entries that strictly belong to this semester
   const matching = allEntries.filter(
     (e) =>
       String(e.semester) === semStr &&
       (!branchLower || !e.course || e.course.toLowerCase() === branchLower)
   );
 
-  const uniqueSubjectNames = Array.from(
+  const customNames = Array.from(
     new Set(matching.map((e) => e.subject).filter(Boolean))
   );
 
-  if (uniqueSubjectNames.length > 0) {
-    return uniqueSubjectNames.map((name, idx) => {
-      const entriesForSubj = matching.filter((e) => e.subject === name);
-      const styling = getSubjectStyling(name);
-      const chapters = buildChaptersFromSubjectEntries(name, entriesForSubj);
-      return {
-        id: `sub-${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${idx}`,
-        name,
-        chapterCount: chapters.length,
-        icon: styling.icon,
-        accentColor: styling.accentColor,
-        accentBg: styling.accentBg,
-        chapters,
-      };
-    });
+  // 3. Merge configured names with any uploaded custom subjects (avoiding case-insensitive duplicates)
+  const combinedSubjectNames: string[] = [...configuredNames];
+  const seenNorm = new Set(configuredNames.map((n) => n.toLowerCase().replace(/[^a-z0-9]/g, '')));
+
+  for (const cName of customNames) {
+    const cNorm = cName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!seenNorm.has(cNorm)) {
+      seenNorm.add(cNorm);
+      combinedSubjectNames.push(cName);
+    }
   }
 
-  // Fallback defaults per semester if database is empty for this semester
-  const fallbackBySem: Record<string, string[]> = {
-    '1': [
-      'Mathematics–I (Calculus & Linear Algebra)',
-      'Engineering Physics',
-      'Basic Electrical Engineering',
-      'Programming for Problem Solving (C)',
-      'Engineering Graphics & Design',
-    ],
-    '2': [
-      'Data structure and Algorithms',
-      'Introduction to Artificial Intelligence',
-      'Digital Logic and Computer Organization',
-      'Engineering Mathematics–II',
-      'Engineering Chemistry',
-      'Constitution of India & Professional Ethics',
-      'Design Thinking & Innovation',
-    ],
-    '3': [
-      'Computer Architecture',
-      'Design and Analysis of Algorithms',
-      'Operating Systems',
-      'Advanced Artificial Intelligence',
-      'Internet of Things',
-      'Discrete Mathematics',
-    ],
-    '4': [
-      'Database Management Systems',
-      'Computer Networks',
-      'Machine Learning',
-      'Formal Language and Automata Theory',
-      'Probability and Statistics',
-    ],
-    '5': [
-      'Software Engineering',
-      'Compiler Design',
-      'Microprocessors & Microcontrollers',
-      'Information Theory & Coding',
-      'Cloud Computing',
-    ],
-    '6': [
-      'Web and Internet Technology',
-      'Deep Learning',
-      'Image Processing',
-      'Cloud Computing',
-      'Big Data and Data Analytics',
-      'Natural Language Processing',
-    ],
-    '7': [
-      'Distributed Systems',
-      'Internet of Things (IoT)',
-      'Cyber Security & Cryptography',
-      'High Performance Computing',
-    ],
-    '8': [
-      'Quantum Computing',
-      'Neural Networks & Deep Learning',
-      'Capstone System Design',
-    ],
-  };
-
-  const subjectNames = fallbackBySem[semStr] || fallbackBySem['2'];
-  return subjectNames.map((name, idx) => {
+  // 4. Map every subject to a SubjectItem with guaranteed chapters and topics
+  return combinedSubjectNames.map((name, idx) => {
+    const entriesForSubj = matching.filter(
+      (e) => e.subject && e.subject.toLowerCase() === name.toLowerCase()
+    );
     const styling = getSubjectStyling(name);
-    const chapters = buildChaptersFromSubjectEntries(name, []);
+    const chapters = buildChaptersFromSubjectEntries(name, entriesForSubj);
     return {
-      id: `sub-fb-${idx}`,
+      id: `sub-${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}-${idx}`,
       name,
       chapterCount: chapters.length,
       icon: styling.icon,
@@ -449,13 +506,12 @@ export const SyllabusPage: React.FC<SyllabusPageProps> = ({ student }) => {
       if (semesterSubjects.length > 0) {
         setSubjectsList(semesterSubjects);
         setSelectedSubjectId((prevId) => {
-          const exists = semesterSubjects.some((s) => s.id === prevId);
-          return exists ? prevId : semesterSubjects[0].id;
-        });
-        setSelectedChapterId((prevChId) => {
-          const curSub = semesterSubjects.find((s) => s.id === selectedSubjectId) || semesterSubjects[0];
-          const exists = curSub.chapters.some((c) => c.id === prevChId);
-          return exists ? prevChId : (curSub.chapters[0]?.id || '');
+          const activeSub = semesterSubjects.find((s) => s.id === prevId) || semesterSubjects[0];
+          setSelectedChapterId((prevChId) => {
+            const exists = activeSub.chapters.some((c) => c.id === prevChId);
+            return exists ? prevChId : (activeSub.chapters[0]?.id || '');
+          });
+          return activeSub.id;
         });
       }
     } catch {
@@ -629,9 +685,8 @@ export const SyllabusPage: React.FC<SyllabusPageProps> = ({ student }) => {
   const completedCount = allCurrentSubjectTopics.filter((t) => t.status === 'completed').length;
   const inProgressCount = allCurrentSubjectTopics.filter((t) => t.status === 'in-progress').length;
   const notStartedCount = allCurrentSubjectTopics.filter((t) => t.status === 'not-started').length;
-  const totalCount = allCurrentSubjectTopics.length || 30;
-
-  const subjectProgressPercent = Math.round((completedCount / totalCount) * 100);
+  const totalCount = allCurrentSubjectTopics.length;
+  const subjectProgressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
   // Active chapter progress
   const chapterTopicsWithStatus = useMemo(() => {
