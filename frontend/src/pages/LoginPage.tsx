@@ -936,33 +936,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
           </button>
         </div>
 
-        {/* Instant 1-Click Demo Login Button for Guest/Evaluation */}
-        <div className="pm-demo-login-wrap">
-          <button
-            type="button"
-            disabled={loading}
-            onClick={async () => {
-              setError(null);
-              setLoading(true);
-              try {
-                await api.login('demo.student@CollegeBuddy.edu', 'CollegeBuddy2026!');
-                const student = await api.getMe();
-                onAuthSuccess(student);
-              } catch (err: unknown) {
-                setError(err instanceof Error ? err.message : 'Demo sign-in failed');
-              } finally {
-                setLoading(false);
-              }
-            }}
-            className="pm-demo-quick-btn"
-            title="Instant 1-click test sign-in with complete student dashboard"
-          >
-            <span className="material-symbols-outlined" style={{ fontSize: '18px', color: '#284232' }}>
-              bolt
-            </span>
-            <span>Instant 1-Click Demo Login</span>
-          </button>
-        </div>
 
         {/* Bottom Switch Mode: Already have an account? Login / Sign Up */}
         <div className="pm-switch-row">

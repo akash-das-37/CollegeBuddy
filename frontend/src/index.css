@@ -2210,6 +2210,60 @@ textarea::placeholder {
   color: #94a3b8 !important;
 }
 
+.eb-search-suggestions-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 320px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  z-index: 60;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.eb-suggestions-header {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 10px 4px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 4px;
+}
+
+.eb-suggestions-empty {
+  font-size: 12px;
+  color: #94a3b8;
+  padding: 12px;
+  text-align: center;
+}
+
+.eb-suggestion-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 12.5px;
+  color: #1e293b;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.eb-suggestion-row:hover {
+  background-color: #f0fdf4;
+  color: #166534;
+}
+
 /* 3-Column Grid */
 .eb-notes-content-grid {
   display: grid;

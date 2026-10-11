@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { Student } from '../types';
-import { DSA_TOPICS, type TopicData, type NoteItem } from '../data/notesData';
+import { getTopicsForSubject, type TopicData, type NoteItem } from '../data/notesData';
 import { SEMESTER_SUBJECTS_MAP } from '../data/semesterSubjects';
 
 interface NotesPageProps {
@@ -25,7 +25,30 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
   );
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTopicId, setActiveTopicId] = useState<string>(DSA_TOPICS[0].id);
+
+  // Genuine curriculum topics exclusively for the chosen subject
+  const allTopics: TopicData[] = useMemo(() => {
+    return getTopicsForSubject(selectedSubject);
+  }, [selectedSubject]);
+
+  const [activeTopicId, setActiveTopicId] = useState<string>(() => {
+    const init = getTopicsForSubject(
+      semesterSubjects.find((s) => s.toLowerCase().includes('data structure')) ||
+        semesterSubjects[0] ||
+        'Data Structures and Algorithms'
+    );
+    return init[0]?.id || 'dsa-1';
+  });
+
+  // Automatically sync active topic when subject or topics catalog changes
+  useEffect(() => {
+    if (allTopics && allTopics.length > 0) {
+      if (!allTopics.some((t) => t.id === activeTopicId)) {
+        setActiveTopicId(allTopics[0].id);
+      }
+    }
+  }, [selectedSubject, allTopics, activeTopicId]);
+
   const [activeFormatTab, setActiveFormatTab] = useState<
     'notes' | 'summary' | 'mindmap' | 'keypoints' | 'practice'
   >('notes');
@@ -53,25 +76,7 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
     setTimeout(() => setToastMessage(null), 3000);
   };
 
-  // Topics for selected subject
-  const allTopics: TopicData[] = useMemo(() => {
-    // For DSA, return full 27 topics
-    if (
-      selectedSubject.toLowerCase().includes('data structure') ||
-      selectedSubject.toLowerCase().includes('dsa')
-    ) {
-      return DSA_TOPICS;
-    }
-    // For other subjects, adapt DSA topics with subject-themed titles
-    return DSA_TOPICS.map((t, idx) => ({
-      ...t,
-      shortTitle: `${selectedSubject.split(' ')[0]} Part ${idx + 1}`,
-      fullTitle: `${selectedSubject} — Unit ${idx + 1}: ${t.shortTitle}`,
-      description: `Comprehensive modular syllabus notes for ${selectedSubject}.`,
-    }));
-  }, [selectedSubject]);
-
-  // Filtered topics based on search
+  // Filtered topics based on search query
   const filteredTopics = useMemo(() => {
     if (!searchQuery.trim()) return allTopics;
     const q = searchQuery.toLowerCase();
@@ -86,8 +91,21 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
 
   // Current active topic
   const activeTopic = useMemo(() => {
-    return allTopics.find((t) => t.id === activeTopicId) || allTopics[0];
-  }, [allTopics, activeTopicId]);
+    return allTopics.find((t) => t.id === activeTopicId) || allTopics[0] || {
+      id: 'default',
+      number: 1,
+      shortTitle: selectedSubject,
+      fullTitle: `${selectedSubject} — Unit 1`,
+      description: `Comprehensive study notes for ${selectedSubject}.`,
+      notesCount: 0,
+      notes: [],
+      summary: [],
+      keyPoints: [],
+      mindMap: [],
+      practiceQs: [],
+      videos: [],
+    };
+  }, [allTopics, activeTopicId, selectedSubject]);
 
   // Progress metrics for active topic
   const progressMetrics = useMemo(() => {
@@ -198,6 +216,10 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
                   className={`eb-dropdown-item ${selectedSubject === sub ? 'active' : ''}`}
                   onClick={() => {
                     setSelectedSubject(sub);
+                    const newTopics = getTopicsForSubject(sub);
+                    if (newTopics.length > 0) {
+                      setActiveTopicId(newTopics[0].id);
+                    }
                     setIsSubjectDropdownOpen(false);
                   }}
                 >
@@ -236,6 +258,14 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
                   className={`eb-dropdown-item ${selectedSemester === sem ? 'active' : ''}`}
                   onClick={() => {
                     setSelectedSemester(sem);
+                    const nextSubs = SEMESTER_SUBJECTS_MAP[sem] || SEMESTER_SUBJECTS_MAP['2'];
+                    if (nextSubs.length > 0) {
+                      setSelectedSubject(nextSubs[0]);
+                      const newTopics = getTopicsForSubject(nextSubs[0]);
+                      if (newTopics.length > 0) {
+                        setActiveTopicId(newTopics[0].id);
+                      }
+                    }
                     setIsSemDropdownOpen(false);
                   }}
                 >
@@ -260,8 +290,8 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
             <span className="material-symbols-outlined eb-filter-icon">sell</span>
             <div className="eb-filter-text">
               <span className="eb-filter-label">Topic</span>
-              <span className="eb-filter-val">
-                {activeTopicId ? activeTopic.shortTitle : 'All Topics'}
+              <span className="eb-filter-val" title={activeTopic ? `${activeTopic.number}. ${activeTopic.shortTitle}` : 'All Topics'}>
+                {activeTopic ? `${activeTopic.number}. ${activeTopic.shortTitle}` : 'All Topics'}
               </span>
             </div>
             <span className="material-symbols-outlined eb-filter-arrow">expand_more</span>
@@ -273,6 +303,9 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
                 type="button"
                 className={`eb-dropdown-item ${!activeTopicId ? 'active' : ''}`}
                 onClick={() => {
+                  if (allTopics.length > 0) {
+                    setActiveTopicId(allTopics[0].id);
+                  }
                   setIsTopicDropdownOpen(false);
                 }}
               >
@@ -295,12 +328,12 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
           )}
         </div>
 
-        {/* Search Input */}
-        <div className="eb-filter-search">
+        {/* Search Input with Topic Suggestions */}
+        <div className="eb-filter-search relative">
           <span className="material-symbols-outlined text-gray-400">search</span>
           <input
             type="text"
-            placeholder="Search notes..."
+            placeholder={`Search ${allTopics.length} topics in ${selectedSubject}...`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="eb-notes-search-input"
@@ -309,10 +342,45 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-gray-600 mr-1"
             >
               <span className="material-symbols-outlined text-sm">close</span>
             </button>
+          )}
+
+          {searchQuery.trim().length > 0 && (
+            <div className="eb-search-suggestions-dropdown">
+              <div className="eb-suggestions-header">
+                Suggestions in {selectedSubject} ({filteredTopics.length})
+              </div>
+              {filteredTopics.length === 0 ? (
+                <div className="eb-suggestions-empty">
+                  No matching topics in this subject
+                </div>
+              ) : (
+                filteredTopics.slice(0, 6).map((st) => (
+                  <button
+                    key={st.id}
+                    type="button"
+                    className="eb-suggestion-row"
+                    onClick={() => {
+                      setActiveTopicId(st.id);
+                      setSearchQuery('');
+                    }}
+                  >
+                    <span className="material-symbols-outlined text-sm text-[#284232]">
+                      check_circle
+                    </span>
+                    <span className="truncate text-left font-medium">
+                      {st.number}. {st.shortTitle}
+                    </span>
+                    <span className="text-[11px] text-gray-400 ml-auto whitespace-nowrap">
+                      {st.notesCount} notes
+                    </span>
+                  </button>
+                ))
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -327,34 +395,40 @@ export const NotesPage: React.FC<NotesPageProps> = ({ student, onNavigateTab }) 
           </div>
 
           <div className="eb-topics-list-scroll">
-            {filteredTopics.map((topic) => {
-              const isActive = topic.id === activeTopic.id;
-              return (
-                <button
-                  key={topic.id}
-                  type="button"
-                  onClick={() => setActiveTopicId(topic.id)}
-                  className={`eb-topic-item-btn ${isActive ? 'active' : ''}`}
-                >
-                  <div className="eb-topic-item-left">
-                    <div className={`eb-topic-number-circle ${isActive ? 'active' : ''}`}>
-                      {topic.number}
-                    </div>
-                    <div className="eb-topic-item-info">
-                      <span className="eb-topic-item-title">{topic.shortTitle}</span>
-                      <span className="eb-topic-item-notes-count">{topic.notesCount} notes</span>
-                    </div>
-                  </div>
-                  <span
-                    className={`material-symbols-outlined eb-topic-chevron ${
-                      isActive ? 'active text-emerald-700' : 'text-gray-400'
-                    }`}
+            {filteredTopics.length === 0 ? (
+              <div className="p-4 text-center text-xs text-stone-500">
+                No topics matching "{searchQuery}" in {selectedSubject}.
+              </div>
+            ) : (
+              filteredTopics.map((topic) => {
+                const isActive = topic.id === activeTopic.id;
+                return (
+                  <button
+                    key={topic.id}
+                    type="button"
+                    onClick={() => setActiveTopicId(topic.id)}
+                    className={`eb-topic-item-btn ${isActive ? 'active' : ''}`}
                   >
-                    chevron_right
-                  </span>
-                </button>
-              );
-            })}
+                    <div className="eb-topic-item-left">
+                      <div className={`eb-topic-number-circle ${isActive ? 'active' : ''}`}>
+                        {topic.number}
+                      </div>
+                      <div className="eb-topic-item-info">
+                        <span className="eb-topic-item-title">{topic.shortTitle}</span>
+                        <span className="eb-topic-item-notes-count">{topic.notesCount} notes</span>
+                      </div>
+                    </div>
+                    <span
+                      className={`material-symbols-outlined eb-topic-chevron ${
+                        isActive ? 'active text-emerald-700' : 'text-gray-400'
+                      }`}
+                    >
+                      chevron_right
+                    </span>
+                  </button>
+                );
+              })
+            )}
           </div>
         </div>
 

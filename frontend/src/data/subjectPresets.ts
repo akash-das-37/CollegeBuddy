@@ -796,6 +796,189 @@ export const SUBJECT_PRESETS: Record<string, ChapterItem[]> = {
       ],
     },
   ],
+
+  'Database Management Systems': [
+    {
+      id: 'dbms-1',
+      number: 1,
+      title: 'Database Architecture & ER Modeling',
+      category: 'theory',
+      topics: [
+        { id: 'dbms-1-1', title: 'Data Models, Schemas, Instances & Three-Schema Architecture [2L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-1-2', title: 'Entity-Relationship (ER) Model, Entity Sets & Weak Entities [2L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-1-3', title: 'Extended ER (EER) Features: Specialization & Generalization [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'dbms-1-4', title: 'ER-to-Relational Mapping & Schema Reduction [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'dbms-2',
+      number: 2,
+      title: 'Relational Model, Relational Algebra & SQL',
+      category: 'theory',
+      topics: [
+        { id: 'dbms-2-1', title: 'Relational Integrity Constraints & Foreign Keys [1L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-2-2', title: 'Relational Algebra: Select, Project, Join, Set Operations [2L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-2-3', title: 'Tuple Relational Calculus (TRC) and Domain Calculus (DRC) [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'dbms-2-4', title: 'Complex SQL Queries: Aggregations, Group By, Having, Subqueries [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'dbms-3',
+      number: 3,
+      title: 'Relational Database Design & Normalization',
+      category: 'theory',
+      topics: [
+        { id: 'dbms-3-1', title: 'Functional Dependencies, Closure & Armstrong Axioms [2L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-3-2', title: 'First, Second, and Third Normal Forms (1NF, 2NF, 3NF) [2L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-3-3', title: 'Boyce-Codd Normal Form (BCNF) & Lossless Decomposition [2L]', category: 'theory', status: 'in-progress' },
+        { id: 'dbms-3-4', title: 'Multivalued Dependencies & Fourth Normal Form (4NF) [1L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'dbms-4',
+      number: 4,
+      title: 'Transaction Processing, Concurrency & Recovery',
+      category: 'theory',
+      topics: [
+        { id: 'dbms-4-1', title: 'Transaction Concepts & ACID Properties [1L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-4-2', title: 'Conflict & View Serializability, Precedence Graph [2L]', category: 'theory', status: 'in-progress' },
+        { id: 'dbms-4-3', title: 'Concurrency Control: Two-Phase Locking (2PL), Timestamp Ordering [2L]', category: 'theory', status: 'not-started' },
+        { id: 'dbms-4-4', title: 'Deadlock Detection, Prevention & WAL Log-Based Recovery [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'dbms-5',
+      number: 5,
+      title: 'Storage, Indexing & Query Processing',
+      category: 'theory',
+      topics: [
+        { id: 'dbms-5-1', title: 'File Organization, Dense vs Sparse Indexing [1L]', category: 'theory', status: 'completed' },
+        { id: 'dbms-5-2', title: 'B-Tree & B+ Tree Indexing Structures and Search Complexity [2L]', category: 'theory', status: 'in-progress' },
+        { id: 'dbms-5-3', title: 'Query Optimization, Relational Algebra Equivalence Rules [1L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+  ],
+
+  'Computer Networks': [
+    {
+      id: 'cn-1',
+      number: 1,
+      title: 'Network Models & Physical Layer Foundations',
+      category: 'theory',
+      topics: [
+        { id: 'cn-1-1', title: 'OSI Reference Model vs TCP/IP Architecture [2L]', category: 'theory', status: 'completed' },
+        { id: 'cn-1-2', title: 'Transmission Media, Nyquist & Shannon Channel Capacity [2L]', category: 'theory', status: 'completed' },
+        { id: 'cn-1-3', title: 'Circuit Switching vs Packet Switching (Virtual Circuit & Datagram) [1L]', category: 'theory', status: 'in-progress' },
+      ],
+    },
+    {
+      id: 'cn-2',
+      number: 2,
+      title: 'Data Link Layer & Medium Access Control (MAC)',
+      category: 'theory',
+      topics: [
+        { id: 'cn-2-1', title: 'Framing, Error Detection: CRC & Checksum [2L]', category: 'theory', status: 'completed' },
+        { id: 'cn-2-2', title: 'Flow Control: Stop-and-Wait, Go-Back-N & Selective Repeat ARQ [2L]', category: 'theory', status: 'in-progress' },
+        { id: 'cn-2-3', title: 'Random Access Protocols: ALOHA, CSMA/CD, CSMA/CA [2L]', category: 'theory', status: 'not-started' },
+        { id: 'cn-2-4', title: 'Ethernet Standards (IEEE 802.3), Fast Ethernet & Gigabit Ethernet [1L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'cn-3',
+      number: 3,
+      title: 'Network Layer, Routing & IP Addressing',
+      category: 'theory',
+      topics: [
+        { id: 'cn-3-1', title: 'IPv4 Addressing, Subnetting, Supernetting & CIDR [2L]', category: 'theory', status: 'completed' },
+        { id: 'cn-3-2', title: 'IPv6 Header Format & Address Architecture [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'cn-3-3', title: 'Routing Algorithms: Distance Vector (Bellman-Ford) & Count-to-Infinity [2L]', category: 'theory', status: 'in-progress' },
+        { id: 'cn-3-4', title: 'Link State Routing (Dijkstra/OSPF) & BGP Protocol [2L]', category: 'theory', status: 'not-started' },
+        { id: 'cn-3-5', title: 'NAT, ARP, RARP, DHCP & ICMP Protocols [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'cn-4',
+      number: 4,
+      title: 'Transport Layer Protocols & Congestion Control',
+      category: 'theory',
+      topics: [
+        { id: 'cn-4-1', title: 'UDP: Connectionless Datagram Header & Use Cases [1L]', category: 'theory', status: 'completed' },
+        { id: 'cn-4-2', title: 'TCP: Three-Way Handshake, Connection Teardown & Header [2L]', category: 'theory', status: 'completed' },
+        { id: 'cn-4-3', title: 'TCP Flow Control (Sliding Window) & Silly Window Syndrome [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'cn-4-4', title: 'TCP Congestion Control: Slow Start, Congestion Avoidance, Fast Retransmit [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'cn-5',
+      number: 5,
+      title: 'Application Layer Protocols & Network Security',
+      category: 'theory',
+      topics: [
+        { id: 'cn-5-1', title: 'DNS (Domain Name System) Hierarchy & Resolution [1L]', category: 'theory', status: 'completed' },
+        { id: 'cn-5-2', title: 'HTTP, HTTPS, FTP, SMTP, POP3 & IMAP [2L]', category: 'theory', status: 'in-progress' },
+        { id: 'cn-5-3', title: 'Cryptography Basics: Symmetric vs Asymmetric (RSA), Firewalls [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+  ],
+
+  'Machine Learning': [
+    {
+      id: 'ml-1',
+      number: 1,
+      title: 'Foundations of Machine Learning & Linear Models',
+      category: 'theory',
+      topics: [
+        { id: 'ml-1-1', title: 'Supervised vs Unsupervised Learning, Inductive Bias [1L]', category: 'theory', status: 'completed' },
+        { id: 'ml-1-2', title: 'Linear Regression: Gradient Descent & Normal Equation [2L]', category: 'theory', status: 'completed' },
+        { id: 'ml-1-3', title: 'Regularization: Ridge (L2) & Lasso (L1) Penalties [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'ml-1-4', title: 'Logistic Regression & Maximum Likelihood Estimation [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'ml-2',
+      number: 2,
+      title: 'Classification & Tree-Based Algorithms',
+      category: 'theory',
+      topics: [
+        { id: 'ml-2-1', title: 'Decision Trees: ID3, C4.5, CART, Entropy & Gini Impurity [2L]', category: 'theory', status: 'completed' },
+        { id: 'ml-2-2', title: 'Ensemble Learning: Bagging, Random Forests & Out-of-Bag Error [2L]', category: 'theory', status: 'in-progress' },
+        { id: 'ml-2-3', title: 'Boosting: AdaBoost, Gradient Boosting & XGBoost [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'ml-3',
+      number: 3,
+      title: 'Support Vector Machines & Kernel Methods',
+      category: 'theory',
+      topics: [
+        { id: 'ml-3-1', title: 'Maximal Margin Classifier & Support Vectors [2L]', category: 'theory', status: 'completed' },
+        { id: 'ml-3-2', title: 'Soft Margin SVM & Slack Variables (C parameter) [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'ml-3-3', title: 'Kernel Trick: Polynomial & RBF Kernels [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'ml-4',
+      number: 4,
+      title: 'Unsupervised Learning & Dimensionality Reduction',
+      category: 'theory',
+      topics: [
+        { id: 'ml-4-1', title: 'K-Means Clustering: Algorithm, Convergence & Elbow Method [2L]', category: 'theory', status: 'completed' },
+        { id: 'ml-4-2', title: 'Hierarchical Clustering: Agglomerative vs Divisive, Dendrograms [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'ml-4-3', title: 'Principal Component Analysis (PCA): Eigenvectors & Variance [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+    {
+      id: 'ml-5',
+      number: 5,
+      title: 'Model Evaluation, Neural Nets & Ethics',
+      category: 'theory',
+      topics: [
+        { id: 'ml-5-1', title: 'Confusion Matrix, Precision, Recall, F1-Score, ROC & AUC [2L]', category: 'theory', status: 'completed' },
+        { id: 'ml-5-2', title: 'Cross-Validation (K-Fold, Stratified) & Bias-Variance Tradeoff [1L]', category: 'theory', status: 'in-progress' },
+        { id: 'ml-5-3', title: 'Perceptron Model, Multi-Layer Perceptron (MLP) Introduction [2L]', category: 'theory', status: 'not-started' },
+      ],
+    },
+  ],
 };
 
 // Fuzzy matcher for subject presets
