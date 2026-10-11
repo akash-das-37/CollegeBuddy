@@ -11,6 +11,7 @@
 
 > **CollegeBuddy** is an autonomous academic intelligence copilot built for developers, engineers, and technical students. Tech students spend their semester building real projects, grinding LeetCode, and developing industry skills—leaving college academics for the last minute. When exams knock at the door, CollegeBuddy uses automated portal crawling, **PyMuPDF table extraction**, a **recency-weighted mathematical decay algorithm**, and a **GitHub-style study activity heatmap** to distill massive syllabi and past papers into an actionable, high-yield revision blueprint.
 
+
 ---
 
 ## 📌 Table of Contents
